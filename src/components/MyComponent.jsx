@@ -12,8 +12,4 @@ function MyComponent({ store }) {
   );
 }
 
-MyComponent.propTypes = {
-  store: React.PropTypes.object,
-};
-
 export default observer(MyComponent);

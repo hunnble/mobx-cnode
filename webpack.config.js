@@ -12,13 +12,13 @@ const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   src: path.join(__dirname, 'src'),
   dist: path.join(__dirname, 'dist'),
-  style: path.join(__dirname, 'src/main.css'),
+  style: path.join(__dirname, 'src/main.css')
 };
 
 const common = {
   entry: {
     src: PATHS.src,
-    style: PATHS.style,
+    style: PATHS.style
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
@@ -44,7 +44,7 @@ const common = {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?/,
         loader: 'url',
         // include: PATHS.fonts,
-      },
+      }
     ],
   },
   output: {
@@ -81,7 +81,7 @@ if (TARGET === 'start' || !TARGET) {
         {
           test: /\.css$/,
           loaders: ['style', 'css'],
-          include: PATHS.src,
+          // include: PATHS.src,
         },
         {
           test: /\.jsx?$/,
@@ -124,7 +124,7 @@ if (TARGET === 'build') {
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract('style', 'css'),
-          include: PATHS.src,
+          // include: PATHS.src,
         },
         {
           test: /\.jsx?$/,
