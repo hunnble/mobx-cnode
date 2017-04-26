@@ -1,17 +1,33 @@
 import React, { PureComponent } from 'react';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import Radium from 'radium';
 import { Button, Table } from 'zent';
+import Tab from './Tab';
 import { tabs as tabsMap, tabsIndex } from '../consts';
 
 const styles = {
-  itemWrapper: {
+  wrapper: {
     display: 'flex',
-    justfyContent: 'center'
+    alignItems: 'center'
   },
-  itemImg: {
+  img: {
+    minWidth: 30,
     width: 30,
     height: 30
+  },
+  count: {
+    minWidth: 70,
+    width: 70,
+    textAlign: 'center'
+  },
+  tab: {
+    marginRight: 8,
+    minWidth: 36
+  },
+  title: {
+    color: '#000',
+    textDecoration: 'none'
   }
 }
 
@@ -21,14 +37,21 @@ class Topics extends PureComponent {
     this.columns = [{
       width: '50%',
       bodyRender: data => (
-        <div style={styles.itemWrapper}>
-          <img src={data.author.avatar_url} style={styles.itemImg} />
-          <span>{data.reply_count}</span>/
-          <span>{data.visit_count}</span>
-          {data.top && <Button size="small" type="danger">置顶</Button>}
-          {data.good && <Button size="small" type="success">精华</Button>}
-          {!data.top && <Button size="small">{tabsMap[tabsIndex.get(data.tab)][1]}</Button>}
-          <p>{data.title}</p>
+        <div style={styles.wrapper}>
+          <img src={data.author.avatar_url} style={styles.img} />
+          <div style={styles.count}>
+            <span>{data.reply_count}</span>/
+            <span>{data.visit_count}</span>
+          </div>
+          {
+            (data.top || data.good || data.tab) &&
+            <div style={styles.tab}>
+              {data.top && <Button size="small" type="danger">置顶</Button>}
+              {!data.top && data.good && <Button size="small" type="success">精华</Button>}
+              {!data.top && !data.good && data.tab && <Button size="small">{tabsMap[tabsIndex.get(data.tab)][1]}</Button>}
+            </div>
+          }
+          <p><Link style={styles.title} to={`/topic/${data.id}`}>{data.title}</Link></p>
         </div>
       )
     }, {}];
@@ -46,11 +69,18 @@ class Topics extends PureComponent {
     const { store } = this.props;
     return (
       <div>
+        <Tab store={store} />
         <Table
           columns={this.columns}
           datasets={store.topics}
           rowKey="id"
-          onChange={store.changeTopicCurrent} />
+          onChange={p => store.fetchTopics({ page: p.current, tab: store.tab })}
+          pageInfo={{
+            current: store.topicCurrent,
+            limit: 20,
+            total: 2000
+          }}
+        />
       </div>
     );
   }

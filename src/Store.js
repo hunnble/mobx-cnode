@@ -19,31 +19,37 @@ class Store {
         }
         this.topics = res.data;
         this.topicCurrent = data.page ? data.page : 1
-        this.tabId = data.tab ? data.tab : 'all'
+        this.tab = data.tab ? data.tab : 'all'
       })
       .catch((err) => {
         console.error(err);
       })
   }
 
-  @observable latestList = [];
-  @action fetchLatest() {
-    fetch(`http://${apiConf.path}:${apiConf.port}/latest`)
+  @observable tab = 'all';
+  @action changeTab(id) {
+    this.tab = id;
+  }
+
+  @observable topic = null;
+  @action fetchTopic(id) {
+    this.topic = null;
+    fetch(`${apiConf.path}${apiConf.topic}/${id}`)
       .then(res => res.json())
       .then((res) => {
         if (!res.success) {
           throw new Error(res);
         }
-        this.latestList = res.data;
+        this.topic = res.data;
       })
       .catch((err) => {
         console.error(err);
       })
   }
 
-  @observable tabId = 'all';
-  @action changeTab(id) {
-    this.tabId = id;
+  @observable accessToken = '';
+  @action changeAccessToken(token) {
+    this.accessToken = token;
   }
 }
 
