@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { observer } from 'mobx-react';
-import '../../node_modules/zent/lib/index.css';
 import Page from './Page';
-import MyComponent from './MyComponent';
+
+import '../../node_modules/zent/lib/index.css';
 
 class App extends PureComponent {
   constructor(props) {
@@ -13,10 +13,7 @@ class App extends PureComponent {
   render() {
     return (
       <div>
-        <Page />
-        <h2>Welcome to the {this.store.name} project.</h2>
-        <h3>This project is {this.store.description}.</h3>
-        <MyComponent store={this.store} />
+        <Page store={this.store} />
       </div>
     );
   }

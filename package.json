@@ -10,7 +10,8 @@
     "build-es6": "rimraf 'es6' && babel --presets react,stage-1 --plugins transform-decorators-legacy,transform-object-assign,array-includes src -d es6",
     "clean": "rimraf '*(es6|dist)'",
     "build": "webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "server": "node --harmony ./src/api/main.js"
   },
   "author": "",
   "license": "ISC",
@@ -18,8 +19,13 @@
     "isomorphic-fetch": "^2.2.1",
     "mobx": "^2.0.0",
     "mobx-react": "^3.0.0",
+    "radium": "^0.18.2",
+    "re-bulma": "^0.4.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.0",
+    "restify": "^4.3.0",
     "zent": "^2.0.14"
   },
   "devDependencies": {
