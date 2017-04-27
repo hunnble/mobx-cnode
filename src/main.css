@@ -4,6 +4,37 @@ body {
   padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
 .zent-table .thead {
   display: none;
+}
+
+.markdown-body {
+  padding: 20px;
+}
+
+.bg {
+  background-color: #fbfbfb;
+}
+
+.inline-input {
+  display: inline-block !important;
+}
+
+.inline-input > input.zent-input {
+  border-radius: 2px 0 0 2px;
+  border-right: 0;
+}
+
+.inline-input > input.zent-input:focus {
+  border-right: 0;
+}
+
+.inline-button {
+  border-radius: 0 2px 2px 0 !important;
+  border-left: 0 !important;
 }

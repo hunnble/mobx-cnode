@@ -1,5 +1,6 @@
 import { observable, computed, action } from 'mobx';
 import fetch from 'isomorphic-fetch';
+import { Notify } from 'zent';
 import apiConf from './api/config';
 
 class Store {
@@ -21,9 +22,7 @@ class Store {
         this.topicCurrent = data.page ? data.page : 1
         this.tab = data.tab ? data.tab : 'all'
       })
-      .catch((err) => {
-        console.error(err);
-      })
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 
   @observable tab = 'all';
@@ -42,9 +41,22 @@ class Store {
         }
         this.topic = res.data;
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+
+  }
+
+  @observable user = null;
+  @action fetchUser(loginname) {
+    this.user = null;
+    fetch(`${apiConf.path}${apiConf.user}/${loginname}`)
+      .then(res => res.json())
+      .then((res) => {
+        if (!res.success) {
+          throw new Error(res);
+        }
+        this.user = res.data;
       })
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 
   @observable accessToken = '';

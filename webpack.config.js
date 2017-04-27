@@ -53,7 +53,7 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Z2EX',
+      title: 'z2ex',
     }),
   ],
 };

@@ -3,8 +3,11 @@ import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import Radium from 'radium';
 import { Button, Table } from 'zent';
+import Timeago from 'timeago.js';
 import Tab from './Tab';
-import { tabs as tabsMap, tabsIndex } from '../consts';
+import TabDesc from './TabDesc';
+
+const timeago = new Timeago();
 
 const styles = {
   wrapper: {
@@ -28,6 +31,9 @@ const styles = {
   title: {
     color: '#000',
     textDecoration: 'none'
+  },
+  time: {
+    color: '#778087'
   }
 }
 
@@ -43,18 +49,13 @@ class Topics extends PureComponent {
             <span>{data.reply_count}</span>/
             <span>{data.visit_count}</span>
           </div>
-          {
-            (data.top || data.good || data.tab) &&
-            <div style={styles.tab}>
-              {data.top && <Button size="small" type="danger">置顶</Button>}
-              {!data.top && data.good && <Button size="small" type="success">精华</Button>}
-              {!data.top && !data.good && data.tab && <Button size="small">{tabsMap[tabsIndex.get(data.tab)][1]}</Button>}
-            </div>
-          }
+          <TabDesc data={data} style={styles.tab} />
           <p><Link style={styles.title} to={`/topic/${data.id}`}>{data.title}</Link></p>
         </div>
       )
-    }, {}];
+    }, {
+      bodyRender: data => <span style={styles.time}>{timeago.format(data.last_reply_at, 'zh_CN')}</span>
+    }];
   }
 
   componentWillMount() {
