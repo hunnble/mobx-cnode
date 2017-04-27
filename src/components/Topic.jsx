@@ -10,6 +10,9 @@ import { tabs as tabsMap, tabsIndex } from '../consts';
 const timeago = new Timeago();
 
 const styles = {
+  article: {
+    marginBottom: 20
+  },
   header: {
     padding: 10
   },
@@ -31,20 +34,21 @@ class Topic extends PureComponent {
   generateTopic = () => {
     const { topic } = this.props.store;
     return (
-      <article>
-        <div style={styles.header}>
-          <h2>{topic.title}</h2>
-          <div>
-            <span style={styles.desc}>发布于：{timeago.format(topic.created_at, 'zh_CN')}</span>
-            <span style={styles.desc}>作者：{topic.author.loginname}</span>
-            <span style={styles.desc}>{topic.visit_count}次浏览</span>
-            {topic.tab && <span style={styles.desc}>来自{tabsMap[tabsIndex.get(topic.tab)][1]}</span>}
+      <div>
+        <article className="bg radius" style={styles.article}>
+          <div style={styles.header}>
+            <h2>{topic.title}</h2>
+            <div>
+              <span style={styles.desc}>发布于：{timeago.format(topic.created_at, 'zh_CN')}</span>
+              <span style={styles.desc}>作者：{topic.author.loginname}</span>
+              <span style={styles.desc}>{topic.visit_count}次浏览</span>
+              {topic.tab && <span style={styles.desc}>来自{tabsMap[tabsIndex.get(topic.tab)][1]}</span>}
+            </div>
           </div>
-        </div>
-        <div dangerouslySetInnerHTML={{ __html: topic.content }} className="markdown-body"></div>
-        <Alert>共{topic.reply_count}条回复</Alert>
+          <div dangerouslySetInnerHTML={{ __html: topic.content }} className="markdown-body"></div>
+        </article>
         <Comments comments={toJS(topic.replies)} />
-      </article>
+      </div>
     );
   }
 

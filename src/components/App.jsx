@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Topics from './Topics';
 import Topic from './Topic';
+import User from './User';
 
 import '../../node_modules/zent/lib/index.css';
 import '../../node_modules/github-markdown-css/github-markdown.css';
@@ -35,9 +36,10 @@ class App extends PureComponent {
           <Navbar store={store} />
           <div style={styles.page}>
             <Sidebar store={store} />
-            <div style={styles.content} className="bg">
+            <div style={styles.content}>
               <Route exact path="/" render={() => <Topics store={store} />} />
               <Route path="/topic/:id" render={({ location }) => <Topic store={store} location={location} />} />
+              <Route path="/user/:loginname" render={({ location }) => <User store={store} location={location} />} />
             </div>
           </div>
         </div>

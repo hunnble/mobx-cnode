@@ -9,7 +9,6 @@ const styles = {
     width: 290
   },
   item: {
-    borderRadius: 3,
     padding: 10
   },
   title: {
@@ -25,12 +24,14 @@ class Sidebar extends PureComponent {
     const { store } = this.props;
     const isLogIn = false;
     return (
-      <div style={styles.sidebar}>
-        <section style={styles.item} className="bg">
-          <h5 style={styles.title}>
-            {!isLogIn && '登录'}
-            {isLogIn && '用户信息'}
-          </h5>
+      <aside style={styles.sidebar}>
+        <section style={styles.item} className="bg radius">
+          <header>
+            <h5 style={styles.title}>
+              {!isLogIn && '登录'}
+              {isLogIn && '用户信息'}
+            </h5>
+          </header>
           {
             !isLogIn &&
             <div style={styles.content}>
@@ -43,7 +44,7 @@ class Sidebar extends PureComponent {
             </div>
           }
         </section>
-      </div>
+      </aside>
     );
   }
 }

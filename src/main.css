@@ -21,6 +21,14 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #fbfbfb;
 }
 
+.radius {
+  border-radius: 3px;
+}
+
+.radius-top {
+  border-radius: 3px 3px 0 0;
+}
+
 .inline-input {
   display: inline-block !important;
 }

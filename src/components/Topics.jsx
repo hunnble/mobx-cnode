@@ -44,7 +44,7 @@ class Topics extends PureComponent {
       width: '50%',
       bodyRender: data => (
         <div style={styles.wrapper}>
-          <img src={data.author.avatar_url} style={styles.img} />
+          <Link to={`/user/${data.author.loginname}`}><img src={data.author.avatar_url} style={styles.img} /></Link>
           <div style={styles.count}>
             <span>{data.reply_count}</span>/
             <span>{data.visit_count}</span>
@@ -62,14 +62,10 @@ class Topics extends PureComponent {
     this.props.store.fetchTopics();
   }
 
-  handleClick = (e, key) => {
-    console.log(key);
-  }
-
   render() {
     const { store } = this.props;
     return (
-      <div>
+      <div className="bg radius">
         <Tab store={store} />
         <Table
           columns={this.columns}

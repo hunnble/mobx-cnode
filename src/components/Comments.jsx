@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Radium from 'radium';
-import { Table } from 'zent';
 import Timeago from 'timeago.js';
+import ListPanel from './ListPanel';
 
 const timeago = new Timeago();
 
@@ -22,27 +22,21 @@ const styles = {
   }
 };
 
-class Comments extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.columns = [{
-      width: '80%',
-      bodyRender: data => (
-        <div>
-          <div style={styles.inWrapper}>
-            <img style={styles.img} src={data.author.avatar_url} alt="" />
-            <span style={styles.info}>{data.author.loginname}发表于{timeago.format(data.created_at, 'zh_CN')}</span>
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: data.content }} className="markdown-body"></div>
-        </div>
-      )
-    }, {}];
-  }
+const bodyRender = data => (
+  <div>
+    <div style={styles.inWrapper}>
+      <img style={styles.img} src={data.author.avatar_url} alt="" />
+      <span style={styles.info}>{data.author.loginname}发表于{timeago.format(data.created_at, 'zh_CN')}</span>
+    </div>
+    <div dangerouslySetInnerHTML={{ __html: data.content }} className="markdown-body"></div>
+  </div>
+)
 
+class Comments extends PureComponent {
   render() {
     const { comments } = this.props;
     return (
-      <Table columns={this.columns} datasets={comments} />
+      <ListPanel alert={`共${comments.length}条`} datasets={comments} bodyRender={bodyRender} />
     );
   }
 }
