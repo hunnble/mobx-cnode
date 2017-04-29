@@ -8,11 +8,14 @@ import { currentUserKey } from './consts';
 class Store {
   topicLimit = 20;
   @observable topicCurrent = 1;
+
   @action changeTopicCurrent(p) {
     this.topicCurrent = p;
   }
 
+
   @observable topics = [];
+
   @action fetchTopics(data = { page: 1 }) {
     fetch(`${apiConf.path}${apiConf.topics}?page=${data.page || 1}&tab=${data.tab || 'all'}`)
       .then(res => res.json())
@@ -27,12 +30,16 @@ class Store {
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 
+
   @observable tab = 'all';
+
   @action changeTab(id) {
     this.tab = id;
   }
 
+
   @observable topic = null;
+
   @action fetchTopic(id) {
     this.topic = null;
     fetch(`${apiConf.path}${apiConf.topic}/${id}`)
@@ -46,7 +53,9 @@ class Store {
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 
+
   @observable user = null;
+
   @action fetchUser(loginname) {
     this.user = null;
     fetch(`${apiConf.path}${apiConf.user}/${loginname}`)
@@ -61,11 +70,14 @@ class Store {
   }
 
   @observable accessToken = 'ea15f1ed-7a11-41ae-8d24-1a35502f2be8';
+
   @action changeAccessToken(token) {
     this.accessToken = token;
   }
 
+
   @observable currentUser = null;
+
   @action login(accesstoken) {
     fetch(`${apiConf.path}${apiConf.accesstoken}`, toPostData({ accesstoken }))
       .then(res => res.json())
@@ -81,9 +93,19 @@ class Store {
         };
         setLocal(currentUserKey, user);
         this.currentUser = user;
+        return user.loginname
+      })
+      .then((loginname) => fetch(`${apiConf.path}${apiConf.user}/${loginname}`))
+      .then(res => res.json())
+      .then((res) => {
+        if (!res.success) {
+          throw new Error(res.error_msg);
+        }
+        this.currentUser = Object.assign(this.currentUser, res.data);
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
+
   @action logout() {
     this.currentUser = null;
     setLocal(currentUserKey, null);

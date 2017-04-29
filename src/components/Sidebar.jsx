@@ -61,7 +61,7 @@ class Sidebar extends PureComponent {
             <div style={[styles.content, styles.userInfo]}>
               <img style={styles.avatar} src={store.currentUser.avatar_url} alt="" />
               <h4 style={styles.name}>{store.currentUser.loginname}</h4>
-              <Button type="primary" onClick={store.logout}>注销</Button>
+              <Button type="primary" onClick={store.logout.bind(store)}>注销</Button>
             </div>
           }
         </section>
