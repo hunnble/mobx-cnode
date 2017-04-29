@@ -3,5 +3,6 @@ module.exports = {
   path: 'https://cnodejs.org/api/v1/',
   topics: 'topics',
   topic: 'topic',
-  user: 'user'
+  user: 'user',
+  accesstoken: 'accesstoken'
 };

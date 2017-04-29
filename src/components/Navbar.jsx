@@ -17,7 +17,8 @@ const styles = {
     justifyContent: 'center',
     padding: '0 20px',
     width: 120,
-    height: '100%'
+    height: '100%',
+    hover: 'pointer'
   },
   img: {
     height: '100%',

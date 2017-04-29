@@ -12,4 +12,6 @@ export const tabsIndex = new Map([
   ['share', 2],
   ['ask', 3],
   ['job', 4]
-])
+]);
+
+export const currentUserKey = 'MOBX_CNODE_USER';

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import Radium from 'radium';
@@ -6,6 +7,8 @@ import { Button, Table } from 'zent';
 import Timeago from 'timeago.js';
 import Tab from './Tab';
 import TabDesc from './TabDesc';
+import { getLocal } from '../utils';
+import { currentUserKey } from '../consts';
 
 const timeago = new Timeago();
 
@@ -25,12 +28,15 @@ const styles = {
     textAlign: 'center'
   },
   tab: {
-    marginRight: 8,
+    marginRight: 16,
     minWidth: 36
   },
   title: {
     color: '#000',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    ':hover': {
+      color: '#778087'
+    }
   },
   time: {
     color: '#778087'
@@ -60,6 +66,10 @@ class Topics extends PureComponent {
 
   componentWillMount() {
     this.props.store.fetchTopics();
+    const currentUser = getLocal(currentUserKey);
+    if (currentUser) {
+      this.props.store.currentUser = currentUser;
+    }
   }
 
   render() {
@@ -69,15 +79,14 @@ class Topics extends PureComponent {
         <Tab store={store} />
         <Table
           columns={this.columns}
-          datasets={store.topics}
+          datasets={toJS(store.topics)}
           rowKey="id"
           onChange={p => store.fetchTopics({ page: p.current, tab: store.tab })}
           pageInfo={{
             current: store.topicCurrent,
             limit: 20,
             total: 2000
-          }}
-        />
+          }} />
       </div>
     );
   }

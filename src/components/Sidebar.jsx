@@ -8,25 +8,38 @@ const styles = {
     float: 'right',
     width: 290
   },
-  item: {
-    padding: 10
+  header: {
+    padding: '10px 0 10px 20px'
   },
   title: {
     color: '#51585c',
   },
   content: {
-    padding: 10
+    padding: 20,
+    textAlign: 'center'
+  },
+  userInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+  avatar: {
+    width: 40,
+    height: 40
+  },
+  name: {
+    padding: '0 12px 0 6px'
   }
 };
 
 class Sidebar extends PureComponent {
   render() {
     const { store } = this.props;
-    const isLogIn = false;
+    const isLogIn = !!store.currentUser;
     return (
       <aside style={styles.sidebar}>
-        <section style={styles.item} className="bg radius">
-          <header>
+        <section className="bg radius">
+          <header style={styles.header} className="top radius-top">
             <h5 style={styles.title}>
               {!isLogIn && '登录'}
               {isLogIn && '用户信息'}
@@ -40,7 +53,15 @@ class Sidebar extends PureComponent {
                 placeholder="输入access token"
                 value={store.accessToken}
                 onChange={e => store.changeAccessToken(e.target.value) } />
-              <Button className="inline-button" type="primary" readOnly={!store.accessToken} onClick={store.login}>登录</Button>
+              <Button className="inline-button" type="primary" onClick={() => store.login(store.accessToken)}>登录</Button>
+            </div>
+          }
+          {
+            isLogIn &&
+            <div style={[styles.content, styles.userInfo]}>
+              <img style={styles.avatar} src={store.currentUser.avatar_url} alt="" />
+              <h4 style={styles.name}>{store.currentUser.loginname}</h4>
+              <Button type="primary" onClick={store.logout}>注销</Button>
             </div>
           }
         </section>

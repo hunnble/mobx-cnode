@@ -14,7 +14,11 @@ const styles = {
     marginBottom: 20
   },
   header: {
-    padding: 10
+    borderBottom: '1px solid #bbb',
+    padding: '18px 10px 10px 20px'
+  },
+  descWrapper: {
+    margin: '6px 0 12px'
   },
   desc: {
     display: 'inline-block',
@@ -38,7 +42,7 @@ class Topic extends PureComponent {
         <article className="bg radius" style={styles.article}>
           <div style={styles.header}>
             <h2>{topic.title}</h2>
-            <div>
+            <div style={styles.descWrapper}>
               <span style={styles.desc}>发布于：{timeago.format(topic.created_at, 'zh_CN')}</span>
               <span style={styles.desc}>作者：{topic.author.loginname}</span>
               <span style={styles.desc}>{topic.visit_count}次浏览</span>
@@ -47,7 +51,7 @@ class Topic extends PureComponent {
           </div>
           <div dangerouslySetInnerHTML={{ __html: topic.content }} className="markdown-body"></div>
         </article>
-        <Comments comments={toJS(topic.replies)} />
+        {topic.replies.length > 0 && <Comments comments={toJS(topic.replies)} author={topic.author} />}
       </div>
     );
   }
