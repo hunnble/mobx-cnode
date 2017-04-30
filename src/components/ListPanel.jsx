@@ -12,6 +12,7 @@ class ListPanel extends PureComponent {
 
   render() {
     const { alert, datasets } = this.props;
+
     return (
       <div className="bg radius">
         <Alert className="radius-top top">{alert}</Alert>

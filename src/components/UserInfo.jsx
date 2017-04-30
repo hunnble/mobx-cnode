@@ -27,6 +27,7 @@ class UserInfo extends PureComponent {
     if (!info) {
       return null;
     }
+
     return (
       <div className="bg radius" style={styles.wrapper}>
         <img style={styles.avatar} src={info.avatar_url} alt="" />

@@ -8,6 +8,7 @@ const { TabPanel } = Tabs;
 class Tab extends PureComponent {
   render() {
     const { store } = this.props;
+
     return (
       <div style={{ paddingTop: 6 }}>
         <Tabs

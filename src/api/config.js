@@ -4,5 +4,7 @@ module.exports = {
   topics: 'topics',
   topic: 'topic',
   user: 'user',
-  accesstoken: 'accesstoken'
+  accesstoken: 'accesstoken',
+  collect: 'topic_collect/collect',
+  deCollect: 'topic_collect/de_collect'
 };

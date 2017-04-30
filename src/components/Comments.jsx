@@ -10,8 +10,7 @@ const timeago = new Timeago();
 const styles = {
   inWrapper: {
     display: 'flex',
-    alignItems: 'center',
-    textDecoration: 'none'
+    alignItems: 'center'
   },
   img: {
     width: 30,

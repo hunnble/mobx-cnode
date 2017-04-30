@@ -8,6 +8,7 @@ class TabDesc extends PureComponent {
     if (!data.top && !data.good && !data.tab) {
       return null;
     }
+
     return (
       <div style={style}>
         {data.top && <Button size="small" type="danger">置顶</Button>}

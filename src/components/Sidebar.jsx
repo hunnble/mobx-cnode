@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Radium from 'radium';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import { Button, Input } from 'zent';
 
 const styles = {
@@ -15,8 +16,7 @@ const styles = {
     color: '#51585c',
   },
   content: {
-    padding: 20,
-    textAlign: 'center'
+    padding: 20
   },
   userInfo: {
     display: 'flex',
@@ -36,6 +36,7 @@ class Sidebar extends PureComponent {
   render() {
     const { store } = this.props;
     const isLogIn = !!store.currentUser;
+
     return (
       <aside style={styles.sidebar}>
         <section className="bg radius">
@@ -59,8 +60,10 @@ class Sidebar extends PureComponent {
           {
             isLogIn &&
             <div style={[styles.content, styles.userInfo]}>
-              <img style={styles.avatar} src={store.currentUser.avatar_url} alt="" />
-              <h4 style={styles.name}>{store.currentUser.loginname}</h4>
+              <Link to={`/user/${store.currentUser.loginname}`} style={styles.userInfo}>
+                <img style={styles.avatar} src={store.currentUser.avatar_url} alt="" />
+                <h4 style={[styles.name, styles.title]}>{store.currentUser.loginname}</h4>
+              </Link>
               <Button type="primary" onClick={store.logout.bind(store)}>注销</Button>
             </div>
           }

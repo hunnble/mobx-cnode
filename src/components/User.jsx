@@ -29,10 +29,7 @@ const styles = {
   timeago: {
     paddingRight: 6,
     color: '#b4b4b4'
-  },
-  title: {
-    textDecoration: 'none'
-  },
+  }
 };
 
 const listBodyRender = data => (
@@ -42,7 +39,7 @@ const listBodyRender = data => (
       <span style={styles.loginname}>{data.author.loginname}</span>
       <span style={styles.timeago}>{timeago.format(data.last_reply_at, 'zh_CN')}</span>
     </div>
-    <Link style={styles.title} to={`/topic/${data.id}`}>{data.title}</Link>
+    <Link to={`/topic/${data.id}`}>{data.title}</Link>
   </div>
 );
 
@@ -59,7 +56,7 @@ class User extends PureComponent {
     if (!user) {
       return null;
     }
-    console.log(user)
+
     return (
       <div>
         <UserInfo info={toJS(user)} />

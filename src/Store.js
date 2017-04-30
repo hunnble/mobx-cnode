@@ -7,10 +7,13 @@ import { currentUserKey } from './consts';
 
 class Store {
   topicLimit = 20;
-  @observable topicCurrent = 1;
+  @observable topicsPage = 1;
 
-  @action changeTopicCurrent(p) {
-    this.topicCurrent = p;
+  @action changeTopicsPage(p) {
+    this.fetchTopics({
+      page: p,
+      tab: this.tab
+    });
   }
 
 
@@ -24,7 +27,7 @@ class Store {
           throw new Error(res.error_msg);
         }
         this.topics = res.data;
-        this.topicCurrent = data.page ? data.page : 1
+        this.topicsPage = data.page ? data.page : 1
         this.tab = data.tab ? data.tab : 'all'
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
@@ -69,7 +72,7 @@ class Store {
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 
-  @observable accessToken = 'ea15f1ed-7a11-41ae-8d24-1a35502f2be8';
+  @observable accessToken = '';
 
   @action changeAccessToken(token) {
     this.accessToken = token;
@@ -90,6 +93,7 @@ class Store {
           loginname: res.loginname,
           avatar_url: res.avatar_url,
           id: res.id,
+          accesstoken
         };
         setLocal(currentUserKey, user);
         this.currentUser = user;
@@ -109,6 +113,22 @@ class Store {
   @action logout() {
     this.currentUser = null;
     setLocal(currentUserKey, null);
+  }
+
+  @action collectTopic(topic_id, is_collect) {
+    const url = is_collect ? `${apiConf.path}${apiConf.deCollect}` : `${apiConf.path}${apiConf.collect}`;
+    fetch(url, toPostData({
+      accesstoken: this.currentUser.accesstoken,
+      topic_id
+    }))
+    .then(res => res.json())
+    .then((res) => {
+      if (!res.success) {
+        throw new Error(res.error_msg);
+      }
+      this.topic.is_collect = !is_collect;
+    })
+    .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 }
 

@@ -7,6 +7,7 @@ import { Button, Table } from 'zent';
 import Timeago from 'timeago.js';
 import Tab from './Tab';
 import TabDesc from './TabDesc';
+import Pagination from './Pagination';
 import { getLocal } from '../utils';
 import { currentUserKey } from '../consts';
 
@@ -33,7 +34,6 @@ const styles = {
   },
   title: {
     color: '#000',
-    textDecoration: 'none',
     ':hover': {
       color: '#778087'
     }
@@ -74,19 +74,15 @@ class Topics extends PureComponent {
 
   render() {
     const { store } = this.props;
+
     return (
       <div className="bg radius">
         <Tab store={store} />
         <Table
           columns={this.columns}
           datasets={toJS(store.topics)}
-          rowKey="id"
-          onChange={p => store.fetchTopics({ page: p.current, tab: store.tab })}
-          pageInfo={{
-            current: store.topicCurrent,
-            limit: 20,
-            total: 2000
-          }} />
+          rowKey="id" />
+        <Pagination page={store.topicsPage} onChange={store.changeTopicsPage.bind(store)} />
       </div>
     );
   }
