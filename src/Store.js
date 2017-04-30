@@ -149,6 +149,18 @@ class Store {
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
+
+  @action markOne(msg_id) {
+    fetch(`${apiConf.path}${apiConf.messageMarkOne}/${msg_id}`, toPostData({ accesstoken: this.currentUser.accesstoken }))
+      .then(res => res.json())
+      .then((res) => {
+        if (!res.success) {
+          throw new Error(res.error_msg);
+        }
+        this.fetchMessages(this.currentUser.loginname);
+      })
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+  }
 }
 
 export default Store;

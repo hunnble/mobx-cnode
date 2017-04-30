@@ -8,5 +8,6 @@ module.exports = {
   topicCollect: 'topic_collect',
   collect: 'topic_collect/collect',
   deCollect: 'topic_collect/de_collect',
-  messages: 'messages'
+  messages: 'messages',
+  messageMarkOne: 'message/mark_one'
 };

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
-import Radium from 'radium';
 import { Link } from 'react-router-dom';
 import Timeago from 'timeago.js';
+import { Button } from 'zent';
 import UserInfo from './UserInfo';
 import ListPanel from './ListPanel';
 
@@ -26,23 +26,13 @@ const styles = {
     display: 'inline-block',
     padding: '0 6px'
   },
-  timeago: {
-    paddingRight: 6,
+  hint: {
     color: '#b4b4b4'
+  },
+  space: {
+    marginRight: 6
   }
 };
-
-const messagesBodyRender = data => (
-  <div style={styles.wrapper}>
-    <div style={styles.info}>
-      <Link to={`/user/${data.author.loginname}`} style={styles.info}>
-        <span style={styles.loginname}>{data.author.loginname}</span>
-      </Link>
-      <span style={styles.timeago}>{data.type === 'at' ? '@' : '回复'}了你</span>
-    </div>
-    <Link to={`/topic/${data.topic.id}`}>{data.topic.title}</Link>
-  </div>
-);
 
 const listBodyRender = data => (
   <div style={styles.wrapper}>
@@ -51,12 +41,13 @@ const listBodyRender = data => (
         <img src={data.author.avatar_url} alt="" style={styles.img} />
         <span style={styles.loginname}>{data.author.loginname}</span>
       </Link>
-      <span style={styles.timeago}>{timeago.format(data.last_reply_at, 'zh_CN')}</span>
+      <span style={Object.assign({}, styles.hint, styles.space)}>{timeago.format(data.last_reply_at, 'zh_CN')}</span>
     </div>
     <Link to={`/topic/${data.id}`}>{data.title}</Link>
   </div>
 );
 
+@observer
 class User extends PureComponent {
   componentWillMount() {
     const { store, location } = this.props;
@@ -67,6 +58,20 @@ class User extends PureComponent {
       store.fetchMessages(loginname);
     }
   }
+
+  messagesBodyRender = data => (
+    <div style={styles.wrapper}>
+      {
+        !data.has_read &&
+        <Button style={styles.space} size="small" onClick={this.props.store.markOne.bind(this.props.store, data.id)}>标为已读</Button>
+      }
+      <div style={styles.info}>
+        <span style={styles.hint}>{data.author.loginname}</span>
+        <span style={Object.assign({}, styles.hint, styles.space)}>{data.type === 'at' ? '@' : '回复'}了你</span>
+      </div>
+      <Link to={`/topic/${data.topic.id}`}>{data.topic.title}</Link>
+    </div>
+  )
 
   componentWillReceiveProps(props) {
     const loginname = props.location.pathname.split('user/')[1];
@@ -90,11 +95,11 @@ class User extends PureComponent {
         <UserInfo info={toJS(user)} />
         {
           isLogin && messages &&
-          <ListPanel alert="未读消息" bodyRender={messagesBodyRender} datasets={toJS(messages).hasnot_read_messages} />
+          <ListPanel alert="未读消息" bodyRender={this.messagesBodyRender} datasets={toJS(messages).hasnot_read_messages} />
         }
         {
           isLogin && messages &&
-          <ListPanel alert="已读消息" bodyRender={messagesBodyRender} datasets={toJS(messages).has_read_messages} />
+          <ListPanel alert="已读消息" bodyRender={this.messagesBodyRender} datasets={toJS(messages).has_read_messages} />
         }
         <ListPanel alert="最近创建的话题" bodyRender={listBodyRender} datasets={toJS(user).recent_topics} />
         <ListPanel alert="最近参与的话题" bodyRender={listBodyRender} datasets={toJS(user).recent_replies} />
@@ -104,4 +109,4 @@ class User extends PureComponent {
   }
 }
 
-export default Radium(observer(User));
+export default User;
