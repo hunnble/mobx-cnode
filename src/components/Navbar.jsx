@@ -6,6 +6,9 @@ import Radium from 'radium';
 const styles = {
   wrapper: {
     position: 'fixed',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     top: 0,
     height: 60,
     width: '100%',

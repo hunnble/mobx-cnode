@@ -8,7 +8,6 @@ import { currentUserKey } from './consts';
 class Store {
   topicLimit = 20;
   @observable topicsPage = 1;
-
   @action changeTopicsPage(p) {
     this.fetchTopics({
       page: p,
@@ -18,7 +17,6 @@ class Store {
 
 
   @observable topics = [];
-
   @action fetchTopics(data = { page: 1 }) {
     fetch(`${apiConf.path}${apiConf.topics}?page=${data.page || 1}&tab=${data.tab || 'all'}`)
       .then(res => res.json())
@@ -35,14 +33,12 @@ class Store {
 
 
   @observable tab = 'all';
-
   @action changeTab(id) {
     this.tab = id;
   }
 
 
   @observable topic = null;
-
   @action fetchTopic(id) {
     this.topic = null;
     fetch(`${apiConf.path}${apiConf.topic}/${id}`)
@@ -58,7 +54,6 @@ class Store {
 
 
   @observable user = null;
-
   @action fetchUser(loginname) {
     this.user = null;
     fetch(`${apiConf.path}${apiConf.user}/${loginname}`)
@@ -73,14 +68,12 @@ class Store {
   }
 
   @observable accessToken = '';
-
   @action changeAccessToken(token) {
     this.accessToken = token;
   }
 
 
   @observable currentUser = null;
-
   @action login(accesstoken) {
     fetch(`${apiConf.path}${apiConf.accesstoken}`, toPostData({ accesstoken }))
       .then(res => res.json())
@@ -127,6 +120,19 @@ class Store {
         throw new Error(res.error_msg);
       }
       this.topic.is_collect = !is_collect;
+    })
+    .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+  }
+
+  @observable collectTopics = [];
+  @action fetchCollectTopics(loginname) {
+    fetch(`${apiConf.path}${apiConf.topicCollect}/${loginname}`)
+    .then(res => res.json())
+    .then((res) => {
+      if (!res.success) {
+        throw new Error(res.error_msg);
+      }
+      this.collectTopics = res.data;
     })
     .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }

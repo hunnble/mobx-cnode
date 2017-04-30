@@ -48,6 +48,7 @@ class User extends PureComponent {
     const { store, location } = this.props;
     const loginname = location.pathname.split('user/')[1];
     store.fetchUser(loginname);
+    store.fetchCollectTopics(loginname);
   }
 
   render() {
@@ -62,6 +63,7 @@ class User extends PureComponent {
         <UserInfo info={toJS(user)} />
         <ListPanel alert="最近创建的话题" bodyRender={listBodyRender} datasets={toJS(user).recent_topics} />
         <ListPanel alert="最近参与的话题" bodyRender={listBodyRender} datasets={toJS(user).recent_replies} />
+        <ListPanel alert="收藏的话题" bodyRender={listBodyRender} datasets={toJS(store.collectTopics)} />
       </div>
     );
   }
