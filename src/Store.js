@@ -161,6 +161,29 @@ class Store {
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
+
+  @action agreeReply(reply_id) {
+    fetch(`${apiConf.path}${apiConf.ups[0]}/${reply_id}/${apiConf.ups[1]}`, toPostData({ accesstoken: this.currentUser.accesstoken }))
+      .then(res => res.json())
+      .then((res) => {
+        if (!res.success) {
+          throw new Error(res.error_msg);
+        }
+        const change = res.action === 'up' ? 1 : -1;
+        for (let i = 0, l = this.topic.replies.length; i < l; i += 1) {
+          if (this.topic.replies[i].id === reply_id) {
+            if (change === 1) {
+              this.topic.replies[i].ups.push(this.currentUser.id);
+            } else {
+              this.topic.replies[i].ups.pop();
+            }
+            this.topic.replies[i].is_uped = !this.topic.replies[i].is_uped;
+            return;
+          }
+        }
+      })
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+  }
 }
 
 export default Store;

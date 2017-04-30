@@ -65,7 +65,7 @@ class Topic extends PureComponent {
           </div>
           <div dangerouslySetInnerHTML={{ __html: topic.content }} className="markdown-body"></div>
         </article>
-        {topic.replies.length > 0 && <Comments comments={toJS(topic.replies)} author={topic.author} />}
+        {topic.replies.length > 0 && <Comments store={this.props.store} comments={toJS(topic.replies)} author={topic.author} />}
       </div>
     );
   }
