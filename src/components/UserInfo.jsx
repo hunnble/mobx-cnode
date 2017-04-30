@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import Radium from 'radium';
-import { Link } from 'react-router-dom';
 
 const styles = {
   wrapper: {
@@ -14,10 +13,17 @@ const styles = {
   },
   items: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     marginLeft: 12,
     fontSize: 13
+  },
+  itemName: {
+    fontSize: 24
+  },
+  itemScore: {
+    color: '#b4b4b4'
   }
 };
 
@@ -32,11 +38,10 @@ class UserInfo extends PureComponent {
       <div className="bg radius" style={styles.wrapper}>
         <img style={styles.avatar} src={info.avatar_url} alt="" />
         <div style={styles.items}>
-          <span style={styles.item}>{info.loginname}</span>
-          <span style={styles.item}>{info.score}积分</span>
-          <span style={styles.item}>
-            <Link to={`https://github.com/${info.githubUsername}`}>Github</Link>
-          </span>
+          <div>
+            <div style={styles.itemName}>{info.loginname}</div>
+            <div style={styles.itemScore}>{info.score}积分</div>
+          </div>
         </div>
       </div>
     );

@@ -41,7 +41,7 @@ class Store {
   @observable topic = null;
   @action fetchTopic(id) {
     this.topic = null;
-    fetch(`${apiConf.path}${apiConf.topic}/${id}`)
+    fetch(`${apiConf.path}${apiConf.topic}/${id}?accesstoken=${this.currentUser ? this.currentUser.accesstoken : ''}`)
       .then(res => res.json())
       .then((res) => {
         if (!res.success) {

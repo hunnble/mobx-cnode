@@ -35,8 +35,10 @@ const styles = {
 const listBodyRender = data => (
   <div style={styles.wrapper}>
     <div style={styles.info}>
-      <img src={data.author.avatar_url} alt="" style={styles.img} />
-      <span style={styles.loginname}>{data.author.loginname}</span>
+      <Link to={`/user/${data.author.loginname}`} style={styles.info}>
+        <img src={data.author.avatar_url} alt="" style={styles.img} />
+        <span style={styles.loginname}>{data.author.loginname}</span>
+      </Link>
       <span style={styles.timeago}>{timeago.format(data.last_reply_at, 'zh_CN')}</span>
     </div>
     <Link to={`/topic/${data.id}`}>{data.title}</Link>
@@ -49,6 +51,14 @@ class User extends PureComponent {
     const loginname = location.pathname.split('user/')[1];
     store.fetchUser(loginname);
     store.fetchCollectTopics(loginname);
+  }
+
+  componentWillReceiveProps(props) {
+    const loginname = props.location.pathname.split('user/')[1];
+    if (loginname !== props.store.user.loginname) {
+      this.props.store.fetchUser(loginname);
+      this.props.store.fetchCollectTopics(loginname);
+    }
   }
 
   render() {
