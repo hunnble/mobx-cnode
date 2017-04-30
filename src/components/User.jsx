@@ -32,6 +32,18 @@ const styles = {
   }
 };
 
+const messagesBodyRender = data => (
+  <div style={styles.wrapper}>
+    <div style={styles.info}>
+      <Link to={`/user/${data.author.loginname}`} style={styles.info}>
+        <span style={styles.loginname}>{data.author.loginname}</span>
+      </Link>
+      <span style={styles.timeago}>{data.type === 'at' ? '@' : '回复'}了你</span>
+    </div>
+    <Link to={`/topic/${data.topic.id}`}>{data.topic.title}</Link>
+  </div>
+);
+
 const listBodyRender = data => (
   <div style={styles.wrapper}>
     <div style={styles.info}>
@@ -51,6 +63,9 @@ class User extends PureComponent {
     const loginname = location.pathname.split('user/')[1];
     store.fetchUser(loginname);
     store.fetchCollectTopics(loginname);
+    if (store.currentUser && loginname === store.currentUser.loginname) {
+      store.fetchMessages(loginname);
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -62,15 +77,25 @@ class User extends PureComponent {
   }
 
   render() {
-    const { store } = this.props;
-    const { user } = store;
+    const { store, location } = this.props;
+    const { user, messages, currentUser } = store;
     if (!user) {
       return null;
     }
+    const loginname = location.pathname.split('user/')[1];
+    const isLogin = currentUser && loginname === currentUser.loginname;
 
     return (
       <div>
         <UserInfo info={toJS(user)} />
+        {
+          isLogin && messages &&
+          <ListPanel alert="未读消息" bodyRender={messagesBodyRender} datasets={toJS(messages).hasnot_read_messages} />
+        }
+        {
+          isLogin && messages &&
+          <ListPanel alert="已读消息" bodyRender={messagesBodyRender} datasets={toJS(messages).has_read_messages} />
+        }
         <ListPanel alert="最近创建的话题" bodyRender={listBodyRender} datasets={toJS(user).recent_topics} />
         <ListPanel alert="最近参与的话题" bodyRender={listBodyRender} datasets={toJS(user).recent_replies} />
         <ListPanel alert="收藏的话题" bodyRender={listBodyRender} datasets={toJS(store.collectTopics)} />

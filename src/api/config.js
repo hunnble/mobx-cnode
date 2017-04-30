@@ -7,5 +7,6 @@ module.exports = {
   accesstoken: 'accesstoken',
   topicCollect: 'topic_collect',
   collect: 'topic_collect/collect',
-  deCollect: 'topic_collect/de_collect'
+  deCollect: 'topic_collect/de_collect',
+  messages: 'messages'
 };

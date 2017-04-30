@@ -8,8 +8,6 @@ import Timeago from 'timeago.js';
 import Tab from './Tab';
 import TabDesc from './TabDesc';
 import Pagination from './Pagination';
-import { getLocal } from '../utils';
-import { currentUserKey } from '../consts';
 
 const timeago = new Timeago();
 
@@ -66,10 +64,6 @@ class Topics extends PureComponent {
 
   componentWillMount() {
     this.props.store.fetchTopics();
-    const currentUser = getLocal(currentUserKey);
-    if (currentUser) {
-      this.props.store.currentUser = currentUser;
-    }
   }
 
   render() {

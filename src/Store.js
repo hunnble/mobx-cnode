@@ -127,14 +127,27 @@ class Store {
   @observable collectTopics = [];
   @action fetchCollectTopics(loginname) {
     fetch(`${apiConf.path}${apiConf.topicCollect}/${loginname}`)
-    .then(res => res.json())
-    .then((res) => {
-      if (!res.success) {
-        throw new Error(res.error_msg);
-      }
-      this.collectTopics = res.data;
-    })
-    .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+      .then(res => res.json())
+      .then((res) => {
+        if (!res.success) {
+          throw new Error(res.error_msg);
+        }
+        this.collectTopics = res.data;
+      })
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+  }
+
+  @observable messages = null;
+  @action fetchMessages(loginname) {
+    fetch(`${apiConf.path}${apiConf.messages}?accesstoken=${this.currentUser.accesstoken}`)
+      .then(res => res.json())
+      .then((res) => {
+        if (!res.success) {
+          throw new Error(res.error_msg);
+        }
+        this.messages = res.data;
+      })
+      .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 }
 

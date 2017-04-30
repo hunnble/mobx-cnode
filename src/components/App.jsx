@@ -6,6 +6,8 @@ import Sidebar from './Sidebar';
 import Topics from './Topics';
 import Topic from './Topic';
 import User from './User';
+import { getLocal } from '../utils';
+import { currentUserKey } from '../consts';
 
 import '../../node_modules/zent/lib/index.css';
 import '../../node_modules/github-markdown-css/github-markdown.css';
@@ -26,6 +28,13 @@ const styles = {
 class App extends PureComponent {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    const currentUser = getLocal(currentUserKey);
+    if (currentUser) {
+      this.props.store.currentUser = currentUser;
+    }
   }
 
   render() {
