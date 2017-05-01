@@ -15,7 +15,6 @@ class Store {
     });
   }
 
-
   @observable topics = [];
   @action fetchTopics(data = { page: 1 }) {
     fetch(`${apiConf.path}${apiConf.topics}?page=${data.page || 1}&tab=${data.tab || 'all'}`)
@@ -24,9 +23,10 @@ class Store {
         if (!res.success) {
           throw new Error(res.error_msg);
         }
+        window.scrollTo(0, 0);
         this.topics = res.data;
-        this.topicsPage = data.page ? data.page : 1
-        this.tab = data.tab ? data.tab : 'all'
+        this.topicsPage = data.page ? data.page : 1;
+        this.tab = data.tab ? data.tab : 'all';
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
