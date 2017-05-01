@@ -10,5 +10,6 @@ module.exports = {
   deCollect: 'topic_collect/de_collect',
   messages: 'messages',
   messageMarkOne: 'message/mark_one',
-  ups: ['reply', 'ups']
+  ups: ['reply', 'ups'],
+  comment: ['topic', 'replies']
 };
