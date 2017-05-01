@@ -35,7 +35,6 @@ const styles = {
 class Sidebar extends PureComponent {
   componentWillMount() {
     window.scrollTo(0, 0);
-    console.log(111);
   }
 
   render() {
