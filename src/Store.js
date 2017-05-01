@@ -48,6 +48,7 @@ class Store {
           throw new Error(res.error_msg);
         }
         this.topic = res.data;
+        this.comment = '';
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
@@ -183,6 +184,27 @@ class Store {
         }
       })
       .catch(err => Notify.error(err.message ? err.message : '网络错误'));
+  }
+
+  @observable comment = '';
+
+  @action changeComment(value) {
+    this.comment = value;
+  }
+
+  @action createComment(topic_id, content) {
+    fetch(`${apiConf.path}${apiConf.comment[0]}/${topic_id}/${apiConf.comment[1]}`, toPostData({
+      accesstoken: this.currentUser.accesstoken,
+      content
+    }))
+    .then(res => res.json())
+    .then((res) => {
+      if (!res.success) {
+        throw new Error(res.error_msg);
+      }
+      this.fetchTopic(topic_id);
+    })
+    .catch(err => Notify.error(err.message ? err.message : '网络错误'));
   }
 }
 

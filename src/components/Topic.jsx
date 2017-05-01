@@ -5,6 +5,7 @@ import { Alert, Button } from 'zent';
 import Radium from 'radium';
 import Timeago from 'timeago.js';
 import Comments from './Comments';
+import Editor from './Editor';
 import { tabs as tabsMap, tabsIndex } from '../consts';
 
 const timeago = new Timeago();
@@ -39,7 +40,7 @@ class Topic extends PureComponent {
   }
 
   generateTopic = () => {
-    const { topic, currentUser, collectTopic } = this.props.store;
+    const { topic, currentUser, collectTopic, comment, changeComment, createComment } = this.props.store;
     const { is_collect, id } = topic;
 
     return (
@@ -65,7 +66,14 @@ class Topic extends PureComponent {
           </div>
           <div dangerouslySetInnerHTML={{ __html: topic.content }} className="markdown-body"></div>
         </article>
-        {topic.replies.length > 0 && <Comments store={this.props.store} comments={toJS(topic.replies)} author={topic.author} />}
+        {
+          topic.replies.length > 0 &&
+          <Comments store={this.props.store} comments={toJS(topic.replies)} author={topic.author} />
+        }
+        {
+          currentUser &&
+          <Editor topic_id={topic.id} value={toJS(comment)} onChange={toJS(changeComment.bind(this.props.store))} onSubmit={toJS(createComment.bind(this.props.store))} />
+        }
       </div>
     );
   }

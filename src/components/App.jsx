@@ -14,6 +14,7 @@ import '../../node_modules/github-markdown-css/github-markdown.css';
 
 const styles = {
   page: {
+    paddingBottom: 40,
     width: '90%',
     maxWidth: 1400,
     minWidth: 960,
