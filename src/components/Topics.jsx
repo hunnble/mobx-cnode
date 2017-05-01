@@ -75,6 +75,7 @@ class Topics extends PureComponent {
         <Table
           columns={this.columns}
           datasets={toJS(store.topics)}
+          emptyLabel=""
           rowKey="id" />
         <Pagination page={store.topicsPage} onChange={store.changeTopicsPage.bind(store)} />
       </div>

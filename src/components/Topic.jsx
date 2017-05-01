@@ -15,7 +15,6 @@ const styles = {
     marginBottom: 20
   },
   header: {
-    borderBottom: '1px solid #bbb',
     padding: '18px 10px 10px 20px'
   },
   descWrapper: {
@@ -82,10 +81,6 @@ class Topic extends PureComponent {
     const { store } = this.props;
     return (
       <div>
-        {
-          !store.topic &&
-          <div>加载中</div>
-        }
         {
           store.topic &&
           this.generateTopic()
