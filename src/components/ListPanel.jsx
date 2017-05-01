@@ -16,7 +16,7 @@ class ListPanel extends PureComponent {
     return (
       <div className="bg radius">
         <Alert className="radius-top top">{alert}</Alert>
-        <Table columns={this.columns} datasets={datasets} rowKey="id" />
+        <Table columns={this.columns} datasets={datasets} rowKey="id" emptyLabel="" />
       </div>
     );
   }
