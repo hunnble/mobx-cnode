@@ -53,7 +53,7 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'z2ex',
+      title: 'mobx-cnode',
     }),
   ],
 };
